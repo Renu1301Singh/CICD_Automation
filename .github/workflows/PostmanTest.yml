@@ -25,9 +25,13 @@ jobs:
     - name: Install htmlextra-export reporter
       run: npm install -g newman-reporter-htmlextra
 
+    - name: List files in directory
+      run: ls -R
+
     - name: Run Postman tests
       run: |
         newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html
+      working-directory: ${{ github.workspace }}
 
     - name: Output the results
       uses: actions/upload-artifact@v3
