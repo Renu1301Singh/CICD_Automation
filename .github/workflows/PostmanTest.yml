@@ -41,11 +41,11 @@ jobs:
 
       # Run Postman tests
       - name: Run Postman tests
-        run: newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r cli,htmlextra-export testArtifacts/htmlreport.html
+        run: newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r cli,htmlextra-export testReport.html
 
        #upload the reports to TestArtifacts director
       - name: Output the results
         uses: actions/upload-artifact@v3
         with:
            name: Reports
-           path: testArtifacts
+           path: testReport
