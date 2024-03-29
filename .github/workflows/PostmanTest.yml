@@ -19,14 +19,16 @@ jobs:
       with:
         node-version: '20'
 
-    - name: Install htmlextra-export reporter
+    - name: Install Newman CLI
       run: |
-        npm install -g newman-reporter-htmlextra
-        newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r htmlextra --reporter-htmlextra-export testArtifacts/htmlreport.html
+          npm install -g newman newman-reporter-htmlextra newman-reporter-slackreporter
+
+
+    - name: Run Postman tests
+      run: newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r htmlextra,slack
 
     - name: Output the results
       uses: actions/upload-artifact@v3
       with:
         name: Reports
         path: testArtifacts
-        
