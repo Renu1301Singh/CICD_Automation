@@ -34,7 +34,7 @@ jobs:
 
       # Run Postman tests
       - name: Run Postman tests
-        run: newman run "User Go_REST.postman_collection.json" -e "Dev Test_env.postman_environment.json" -r cli,html-export testArtifacts/htmlreport.html
+        run: newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r cli,html-export testArtifacts/htmlreport.html
 
       # upload the reports to TestArtifacts directory
       - name: Output the results
