@@ -24,6 +24,10 @@ jobs:
 
     - name: Install htmlextra-export reporter
       run: npm install -g newman-reporter-htmlextra
+      
+    - name: Install slack reporter
+
+      run: npm install -g newman-reporter-slack
 
     - name: Run Postman tests
       run: newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r htmlextra,slack
