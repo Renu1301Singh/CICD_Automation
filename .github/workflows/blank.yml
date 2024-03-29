@@ -24,7 +24,7 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '16.x'
 
       # Install Newman CLI
       - name: Install Newman
@@ -34,7 +34,7 @@ jobs:
 
       # Run Postman tests
       - name: Run Postman tests
-        run: newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r cli,html-export testArtifacts/htmlreport.html
+        run: newman run "User Go_REST.postman_collection.json" -e "Dev Test_env.postman_environment.json" -r cli,html-export testArtifacts/htmlreport.html
 
       # upload the reports to TestArtifacts directory
       - name: Output the results
