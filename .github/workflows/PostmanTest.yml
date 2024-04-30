@@ -32,14 +32,13 @@ jobs:
           node-version: '20' # update Node.js to the latest version
         
 
-      # Install Newman CLI
-      - name: Install Newman
-        run: npm install -g newman
-
       - name: Install htmlextra-export reporter
         run: |
           npm install -g newman-reporter-htmlextra
           npm install reportportal-client
+
+      - name: Install reportportal-cli
+        run: npm install -g reportportal-cli
 
       - name: Run Postman tests and report to Report Portal
         env:
