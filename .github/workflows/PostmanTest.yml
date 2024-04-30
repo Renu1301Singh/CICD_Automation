@@ -36,22 +36,17 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
-      # Install htmlextra-export reporter
       - name: Install htmlextra-export reporter
         run: |
           npm install -g newman-reporter-htmlextra
           npm install reportportal-client
-         
 
-      # Run Postman tests
       - name: Run Postman tests and report to Report Portal
+        env:
+          REPORT_PORTAL_API_KEY: ${{ secrets.REPORT_PORTAL_API_KEY }}
+          REPORT_PORTAL_ENDPOINT: ${{ secrets.REPORT_PORTAL_ENDPOINT }}
+          REPORT_PORTAL_PROJECT: ${{ secrets.REPORT_PORTAL_PROJECT }}
+          REPORT_PORTAL_LAUNCH: ${{ secrets.REPORT_PORTAL_LAUNCH }}
         run: |
-         newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" 
-          
-      - name: Send test results to Report Portal
-        run: |
-        
-            endpoint: 'http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080',
-            apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
-            project: 'automation',
-            launch: 'RENU'
+          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" 
+          reportportal-cli -e $REPORT_PORTAL_API_KEY -e $REPORT_PORTAL_ENDPOINT -p $REPORT_PORTAL_PROJECT -l $REPORT_PORTAL_LAUNCH
