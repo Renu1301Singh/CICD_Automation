@@ -40,13 +40,7 @@ jobs:
         run: |
           npm install -g newman-reporter-htmlextra
           npm install reportportal-client
-          const { ReportPortal } = require('reportportal-client');
-          const reportPortal = new ReportPortal({
-           endpoint: 'http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080',
-             apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
-             project: 'automation',
-                    });
-                    reportPortal.launch('RENU', 'Postman');
+         
 
       # Run Postman tests
       - name: Run Postman tests and report to Report Portal
