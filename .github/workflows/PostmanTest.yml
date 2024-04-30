@@ -30,6 +30,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: '16.x' # update Node.js to the latest version
+      - name: Install dependencies
+        run: npm install      
 
       # Install Newman CLI
       - name: Install Newman
@@ -46,20 +48,11 @@ jobs:
       - name: Run Postman tests and report to Report Portal
         run: |
          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
-          -r cli,htmlextra-export --reporter-htmlextra-export-export reportPortal \
+           -r cli,htmlextra-export --reporter-htmlextra-export-export reportPortal \
           --reporter-htmlextra-export-reportportal-endpoint ${{ secrets.RP_ENDPOINT }} \
           --reporter-htmlextra-export-reportportal-api-key ${{ secrets.RP_API_KEY }} \
           --reporter-htmlextra-export-reportportal-launch ${{ secrets.RP_LAUNCH }} \
           --reporter-htmlextra-export-reportportal-project ${{ secrets.RP_PROJECT }}
-      - name: Send launches to Report Portal
-        run: |
-          const { ReportPortal } = require('reportportal-client');
-          const reportPortal = new ReportPortal({
-            endpoint: 'http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080',
-            apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
-            project: 'automation',
-          });
-          reportPortal.launch('RENU', 'Your Launch Description');
       - name: Send test results to Report Portal
         run: |
           const { ReportPortal } = require('reportportal-client');
@@ -68,14 +61,4 @@ jobs:
             apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
             project: 'automation',
           });
-          reportPortal.send('RENU', 'Postman', ' Test Result');
-
-       #upload the reports to TestArtifacts directory
-      - name: Output the results
-        uses: actions/upload-artifact@v3
-        with:
-           name: Reports
-           path: testReport
-           
-
-         
+          reportPortal.launch('RENU', 'Your Launch Description');
