@@ -55,4 +55,4 @@ jobs:
             endpoint: 'http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080',
             apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
             project: 'automation',
-           reportPortal.launch('RENU');})
+            launch: 'RENU';})
