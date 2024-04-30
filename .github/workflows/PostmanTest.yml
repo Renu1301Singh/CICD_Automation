@@ -29,6 +29,7 @@ jobs:
           REPORT_PORTAL_PROJECT: ${{ secrets.REPORT_PORTAL_PROJECT }}
           REPORT_PORTAL_LAUNCH: ${{ secrets.REPORT_PORTAL_LAUNCH }}
         run: |
+          npm install -g newman-reporter-htmlextra
           newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
           -r htmlextra-export \
           --reporter-htmlextra-export "testReport.html" \
