@@ -50,9 +50,8 @@ jobs:
           
       - name: Send test results to Report Portal
         run: |
-         
-          const reportPortal = new ReportPortal({
+        
             endpoint: 'http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080',
             apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
             project: 'automation',
-            launch: 'RENU';})
+            launch: 'RENU'
