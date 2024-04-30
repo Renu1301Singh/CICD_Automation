@@ -1,46 +1,26 @@
 name: Postman_CICD
 
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
   build:
-    # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # Install Node.js
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20' # update Node.js to the latest version
-          
-      - name: Install htmlextra-export reporter
-        run: |
-          npm install -g newman-reporter-htmlextra
-          npm install reportportal-client   
+          node-version: '16' # Update Node.js version to the desired version
 
-      - name: Install reportportal-cli
-        uses: actions/checkout@v2  # Use pre-built action for reportportal-cli
-        with:
-          repository: reportportal/reportportal-cli  # Official repository
-          
+      - name: Install htmlextra-export reporter
+        run: npm install -g newman-reporter-htmlextra @reportportal/newman-reporter-agent-js-postman
 
       - name: Run Postman tests and report to Report Portal
         env:
@@ -49,6 +29,12 @@ jobs:
           REPORT_PORTAL_PROJECT: ${{ secrets.REPORT_PORTAL_PROJECT }}
           REPORT_PORTAL_LAUNCH: ${{ secrets.REPORT_PORTAL_LAUNCH }}
         run: |
-          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" 
-          reportportal-cli -e $REPORT_PORTAL_API_KEY -e $REPORT_PORTAL_ENDPOINT -p $REPORT_PORTAL_PROJECT -l $REPORT_PORTAL_LAUNCH
-
+          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
+          -r htmlextra-export \
+          --reporter-htmlextra-export "testReport.html" \
+          --reporter-newman-reporter-agent-js-postman \
+          --reporter-newman-reporter-agent-js-postman-endpoint "${{ secrets.REPORT_PORTAL_ENDPOINT }}" \
+          --reporter-newman-reporter-agent-js-postman-api-key "${{ secrets.REPORT_PORTAL_API_KEY }}" \
+          --reporter-newman-reporter-agent-js-postman-launch "${{ secrets.REPORT_PORTAL_LAUNCH }}" \
+          --reporter-newman-reporter-agent-js-postman-project "${{ secrets.REPORT_PORTAL_PROJECT }}" \
+          --reporter-newman-reporter-agent-js-postman-debug true
