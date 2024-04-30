@@ -40,7 +40,7 @@ jobs:
         uses: actions/checkout@v2  # Use pre-built action for reportportal-cli
         with:
           repository: reportportal/reportportal-cli  # Official repository
-          ref: v1.1.1  # Specify a version (optional)
+          
 
       - name: Run Postman tests and report to Report Portal
         env:
