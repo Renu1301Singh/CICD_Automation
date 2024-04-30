@@ -1,41 +1,53 @@
 name: Postman_CICD
 
+# Controls when the workflow will run
 on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
+  # This workflow contains a single job called "build"
   build:
+    # The type of runner that the job will run on
     runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      # Install Node.js
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16' # Update Node.js version to the desired version
+          node-version: '20' # update Node.js to the latest version
+          
+      # Install Newman and htmlextra-export reporter
+      - name: Install Newman and htmlextra-export reporter
+        run: |
+          npm install -g newman
+          npm install newman-reporter-htmlextra
 
-      - name: Install htmlextra-export reporter
-        run: npm install -g newman-reporter-htmlextra @reportportal/newman-reporter-agent-js-postman
-
+      # Run Postman tests and report to Report Portal
       - name: Run Postman tests and report to Report Portal
         env:
-          REPORT_PORTAL_API_KEY: ${{ secrets.RP_API_KEY }}
-          REPORT_PORTAL_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
-          REPORT_PORTAL_PROJECT: ${{ secrets.RP_PROJECT }}
-          REPORT_PORTAL_LAUNCH: ${{ secrets.RP_LAUNCH }}
+          RP_API_KEY: ${{ secrets.RP_API_KEY }}
+          RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
+          RP_PROJECT: ${{ secrets.RP_PROJECT }}
+          RP_LAUNCH: ${{ secrets.RP_LAUNCH }}
         run: |
-          npm install -g newman-reporter-htmlextra
           newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
-          -r htmlextra-export \
-          --reporter-htmlextra-export "testReport.html" \
-          --reporter-newman-reporter-agent-js-postman \
-          --reporter-newman-reporter-agent-js-postman-endpoint "${{ secrets.RP_ENDPOINT }}" \
-          --reporter-newman-reporter-agent-js-postman-api-key "${{ secrets.RP_API_KEY }}" \
-          --reporter-newman-reporter-agent-js-postman-launch "${{ secrets.RP_LAUNCH }}" \
-          --reporter-newman-reporter-agent-js-postman-project "${{ secrets.RP_PROJECT }}" \
-          --reporter-newman-reporter-agent-js-postman-debug true
+          --reporters htmlextra \
+          --reporter-htmlextra-export testReport.html \
+          --reporter-htmlextra-title "Postman Test Report" \
+          --reporter-htmlextra-export testReport.html \
+          --reporter-htmlextra-log testLog.html \
+          --reporter-htmlextra-showOnlyFails
