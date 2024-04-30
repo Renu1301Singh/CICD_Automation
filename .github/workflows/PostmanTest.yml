@@ -24,18 +24,18 @@ jobs:
 
       - name: Run Postman tests and report to Report Portal
         env:
-          REPORT_PORTAL_API_KEY: ${{ secrets.REPORT_PORTAL_API_KEY }}
-          REPORT_PORTAL_ENDPOINT: ${{ secrets.REPORT_PORTAL_ENDPOINT }}
-          REPORT_PORTAL_PROJECT: ${{ secrets.REPORT_PORTAL_PROJECT }}
-          REPORT_PORTAL_LAUNCH: ${{ secrets.REPORT_PORTAL_LAUNCH }}
+          REPORT_PORTAL_API_KEY: ${{ secrets.RP_API_KEY }}
+          REPORT_PORTAL_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
+          REPORT_PORTAL_PROJECT: ${{ secrets.RP_PROJECT }}
+          REPORT_PORTAL_LAUNCH: ${{ secrets.RP_LAUNCH }}
         run: |
           npm install -g newman-reporter-htmlextra
           newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
           -r htmlextra-export \
           --reporter-htmlextra-export "testReport.html" \
           --reporter-newman-reporter-agent-js-postman \
-          --reporter-newman-reporter-agent-js-postman-endpoint "${{ secrets.REPORT_PORTAL_ENDPOINT }}" \
-          --reporter-newman-reporter-agent-js-postman-api-key "${{ secrets.REPORT_PORTAL_API_KEY }}" \
-          --reporter-newman-reporter-agent-js-postman-launch "${{ secrets.REPORT_PORTAL_LAUNCH }}" \
-          --reporter-newman-reporter-agent-js-postman-project "${{ secrets.REPORT_PORTAL_PROJECT }}" \
+          --reporter-newman-reporter-agent-js-postman-endpoint "${{ secrets.RP_ENDPOINT }}" \
+          --reporter-newman-reporter-agent-js-postman-api-key "${{ secrets.RP_API_KEY }}" \
+          --reporter-newman-reporter-agent-js-postman-launch "${{ secrets.RP_LAUNCH }}" \
+          --reporter-newman-reporter-agent-js-postman-project "${{ secrets.RP_PROJECT }}" \
           --reporter-newman-reporter-agent-js-postman-debug true
