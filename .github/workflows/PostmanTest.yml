@@ -29,9 +29,8 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '16.x' # update Node.js to the latest version
-      - name: Install dependencies
-        run: npm install      
+          node-version: '20' # update Node.js to the latest version
+        
 
       # Install Newman CLI
       - name: Install Newman
