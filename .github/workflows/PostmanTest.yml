@@ -49,6 +49,18 @@ jobs:
           --reporter-htmlextra-export-reportportal-launch ${{ secrets.RP_LAUNCH }} \
           --reporter-htmlextra-export-reportportal-project ${{ secrets.RP_PROJECT }}
 
+      - name: Test Report Portal accessibility
+        run: |
+          if [ $? -eq 0 ]; then  
+           curl ${{ secrets.RP_ENDPOINT }}
+           if [ $? -eq 0 ]; then
+          echo "Report Portal is accessible"
+          else
+          echo "Error: Could not reach Report Portal"
+                       fi
+                      fi
+    
+
        #upload the reports to TestArtifacts directory
       - name: Output the results
         uses: actions/upload-artifact@v3
