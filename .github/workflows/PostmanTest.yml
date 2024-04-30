@@ -40,9 +40,14 @@ jobs:
         run: npm install -g newman-reporter-htmlextra
 
       # Run Postman tests
-      - name: Run Postman tests
-      
-        run: newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" -r reportportal --reporter-reportportal-uuid=RENU_369 --reportportal-api-key=$report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB --reportportal-endpoint=$http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080 --reportportal-launch=RENU --reportportal-project=automation
+      - name: Run Postman tests and report to Report Portal
+        run: |
+          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
+          -r cli,htmlextra-export --reporter-htmlextra-export-export reportPortal \
+          --reporter-htmlextra-export-reportportal-endpoint ${{ secrets.RP_ENDPOINT }} \
+          --reporter-htmlextra-export-reportportal-api-key ${{ secrets.RP_API_KEY }} \
+          --reporter-htmlextra-export-reportportal-launch ${{ secrets.RP_LAUNCH }} \
+          --reporter-htmlextra-export-reportportal-project ${{ secrets.RP_PROJECT }}
 
        #upload the reports to TestArtifacts directory
       - name: Output the results
