@@ -38,7 +38,12 @@ jobs:
           npm install reportportal-client
 
       - name: Install reportportal-cli
-        run: npm install -g reportportal-cli
+        run: |
+          git clone https://github.com/reportportal/reportportal-cli.git
+          cd reportportal-cli
+          npm install
+          npm link
+       
 
       - name: Run Postman tests and report to Report Portal
         env:
