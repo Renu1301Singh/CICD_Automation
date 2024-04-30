@@ -42,26 +42,30 @@ jobs:
       # Run Postman tests
       - name: Run Postman tests and report to Report Portal
         run: |
-          echo "Running Postman tests..."
-          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
+         newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
           -r cli,htmlextra-export --reporter-htmlextra-export-export reportPortal \
           --reporter-htmlextra-export-reportportal-endpoint ${{ secrets.RP_ENDPOINT }} \
           --reporter-htmlextra-export-reportportal-api-key ${{ secrets.RP_API_KEY }} \
           --reporter-htmlextra-export-reportportal-launch ${{ secrets.RP_LAUNCH }} \
           --reporter-htmlextra-export-reportportal-project ${{ secrets.RP_PROJECT }}
-          echo "Postman tests completed."
-          echo "Checking Report Portal API credentials..."
-          curl -X GET ${{ secrets.RP_ENDPOINT }}
-          echo "Checking Report Portal API endpoint..."
-          echo "Checking Newman reporter configuration..."
-          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
-          -r cli,htmlextra-export --reporter-htmlextra-export-export reportPortal \
-          --reporter-htmlextra-export-reportportal-endpoint ${{ secrets.RP_ENDPOINT }} \
-          --reporter-htmlextra-export-reportportal-api-key ${{ secrets.RP_API_KEY }} \
-          --reporter-htmlextra-export-reportportal-launch ${{ secrets.RP_LAUNCH }} \
-          --reporter-htmlextra-export-reportportal-project ${{ secrets.RP_PROJECT }}
-          echo "Newman reporter configuration checked."
-
+      - name: Send launches to Report Portal
+        run: |
+          const { ReportPortal } = require('reportportal-client');
+          const reportPortal = new ReportPortal({
+            endpoint: 'http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080',
+            apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
+            project: 'automation',
+          });
+          reportPortal.launch('RENU', 'Your Launch Description');
+      - name: Send test results to Report Portal
+        run: |
+          const { ReportPortal } = require('reportportal-client');
+          const reportPortal = new ReportPortal({
+            endpoint: 'http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080',
+            apiKey: 'report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB',
+            project: 'automation',
+          });
+          reportPortal.send('Your Test Name', 'Your Test Description', 'Your Test Result');
 
        #upload the reports to TestArtifacts directory
       - name: Output the results
