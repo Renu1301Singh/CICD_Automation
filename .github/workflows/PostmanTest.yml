@@ -24,29 +24,28 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # Install Node.js
+  # Install Node.js
       - name: Install Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '20' # update Node.js to the latest version
+         node-version: '20' # update Node.js to the latest version
           
-      # Install Newman and htmlextra-export reporter
+# Install Newman and htmlextra-export reporter
       - name: Install htmlextra-export reporter
         run: |
-           npm install -g newman-reporter-htmlextra @reportportal/newman-reporter-agent-js-postman newman
+         npm install -g newman-reporter-htmlextra @reportportal/newman-reporter-agent-js-postman newman  
 
+# Run Postman tests and report to Report Portal
       - name: Run Postman tests and report to Report Portal
-        
-        
         run: |
-          newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
-          newman run https://postman-echo.com/status/200 \
-          -r @reportportal/agent-js-postman \
-          --reporter-@reportportal/agent-js-postman-debug=true
-          --reporter-@reportportal/agent-js-postman-endpoint=http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080 \
-          --reporter-@reportportal/agent-js-postman-api-key=report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB \
-          --reporter-@reportportal/agent-js-postman-project=automation \
-          --reporter-@reportportal/agent-js-postman-launch=RENU \
+         newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
+         --reporters cli,@reportportal/agent-js-postman \
+         --reporter-@reportportal/agent-js-postman-debug=true \
+         --reporter-@reportportal/agent-js-postman-endpoint=http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080 \
+         --reporter-@reportportal/agent-js-postman-api-key=report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB \
+         --reporter-@reportportal/agent-js-postman-project=automation \
+         --reporter-@reportportal/agent-js-postman-launch=RENU
+
           
           
  
