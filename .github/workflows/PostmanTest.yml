@@ -42,8 +42,9 @@ jobs:
           -r @reportportal/agent-js-postman \
           --reporter-@reportportal/agent-js-postman-endpoint=http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080 \
           --reporter-@reportportal/agent-js-postman-api-key=report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB \
-          --reporter-@reportportal/agent-js-postman-launch=RENU \
+          
           --reporter-@reportportal/agent-js-postman-project=automation \
+          --reporter-@reportportal/agent-js-postman-launch=RENU \
           --reporter-@reportportal/agent-js-postman-debug=true
           -x
  
