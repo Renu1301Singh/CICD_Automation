@@ -36,18 +36,14 @@ jobs:
            npm install -g newman-reporter-htmlextra @reportportal/newman-reporter-agent-js-postman newman
 
       - name: Run Postman tests and report to Report Portal
-        env:
-          REPORT_PORTAL_API_KEY: ${{ secrets.RP_API_KEY }}
-          REPORT_PORTAL_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
-          REPORT_PORTAL_PROJECT: ${{ secrets.RP_PROJECT }}
-          REPORT_PORTAL_LAUNCH: ${{ secrets.RP_LAUNCH }}
+        
         run: |
           newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
           -r @reportportal/agent-js-postman \
-          --reporter-newman-reporter-agent-js-postman-endpoint=REPORT_PORTAL_API_KEY \
-          --reporter-newman-reporter-agent-js-postman-api-key=REPORT_PORTAL_ENDPOINT \
-          --reporter-newman-reporter-agent-js-postman-launch=REPORT_PORTAL_LAUNCH \
-          --reporter-newman-reporter-agent-js-postman-project=REPORT_PORTAL_PROJECT \
+          --reporter-newman-reporter-agent-js-postman-endpoint="http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080" \
+          --reporter-newman-reporter-agent-js-postman-api-key="report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB" \
+          --reporter-newman-reporter-agent-js-postman-launch="RENU" \
+          --reporter-newman-reporter-agent-js-postman-project="automation" \
           --reporter-newman-reporter-agent-js-postman-debug true
           -x
 
