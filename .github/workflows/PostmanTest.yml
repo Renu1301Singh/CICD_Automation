@@ -36,12 +36,7 @@ jobs:
            npm install -g newman-reporter-htmlextra @reportportal/newman-reporter-agent-js-postman newman
 
       - name: Run Postman tests and report to Report Portal
-        env:
-      
-          REPORT_PORTAL_API_KEY: ${{ secrets.RP_API_KEY }}
-          REPORT_PORTAL_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
-          REPORT_PORTAL_PROJECT: ${{ secrets.RP_PROJECT }}
-          REPORT_PORTAL_LAUNCH: ${{ secrets.RP_LAUNCH }}
+        
         
         run: |
           newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
