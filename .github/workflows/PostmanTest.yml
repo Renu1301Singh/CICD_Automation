@@ -45,7 +45,7 @@ jobs:
         
         run: |
           newman run "Go_REST.postman_collection.json" -e "Test_env.postman_environment.json" \
-          --r @reportportal/agent-js-postman \
+          -r @reportportal/agent-js-postman \
           --reporter-@reportportal/agent-js-postman-endpoint=http://nashtech-test-reportportal.eastasia.cloudapp.azure.com:8080 \
           --reporter-@reportportal/agent-js-postman-api-key=report_7QbUgJvxQomWUspSTzLoBTVnncIDDr6ffzlO_7-_dhAQZbBWJsghBlhDOqHSIyLB \
           --reporter-@reportportal/agent-js-postman-project=AUTOMATION \
